@@ -123,9 +123,9 @@ async def update_password(db:AsyncSession,user_id:uuid.UUID,cred=user_schema.Use
             detail="Database error occurred during authentication"
         )
 
-async def _get_user(db:AsyncSession,cred:user_schema.ResetPasswordRequest):
+async def get_user(db:AsyncSession,email:user_schema.ResetPasswordRequest):
     try :
-        result = await db.execute(select(models.User).where(models.User.email == cred))
+        result = await db.execute(select(models.User).where(models.User.email == email.email))
         user = result.scalar_one_or_none()
         if not user:
             raise HTTPException(status_code=404, detail="User account not found.")

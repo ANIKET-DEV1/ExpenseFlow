@@ -73,7 +73,7 @@ class for_Auth(BaseRepository,NotificationService):
         return data
 
     async def password_reset(self,email:user.ResetPasswordRequest):
-        user=await crud_auth._get_user(self.db,email)
+        user=await crud_auth.get_user(db=self.db,email=email)
         if not await is_mail_send(user.email):
                 email_verify_token = password_mail_verification.generate_token(user)
 
