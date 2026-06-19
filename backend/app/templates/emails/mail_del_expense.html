@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<p style="margin: 0 0 12px 0; font-size: 11px; font-weight: 700; letter-spacing: 1.2px; color: #AD3A2D; text-transform: uppercase;">Expense removed</p>
+
+<h2 style="margin: 0 0 16px 0; font-family: Georgia, 'Times New Roman', serif; font-size: 22px; font-weight: 700; color: #1C2620;">Expense removed</h2>
+
+<p style="margin: 0 0 24px 0; font-size: 15px; line-height: 1.6; color: #51605A;">
+    An expense was removed from your account.
+</p>
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: 0 0 8px 0;">
+    <tr>
+        <td style="border-top: 1px dashed #D9D6C7; font-size: 0; line-height: 0;">&nbsp;</td>
+    </tr>
+</table>
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+        <td style="padding: 13px 0; font-size: 13px; color: #8C9690; vertical-align: middle;">Amount</td>
+        <td style="padding: 13px 0; font-size: 15px; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; font-weight: 700; color: #1C2620; text-align: right; vertical-align: middle;">₹{{ amount }}</td>
+    </tr>
+</table>
+{% endblock %}

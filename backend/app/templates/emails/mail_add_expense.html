@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<p style="margin: 0 0 12px 0; font-size: 11px; font-weight: 700; letter-spacing: 1.2px; color: #0F6F4E; text-transform: uppercase;">Expense added</p>
+
+<h2 style="margin: 0 0 16px 0; font-family: Georgia, 'Times New Roman', serif; font-size: 22px; font-weight: 700; color: #1C2620;">New expense recorded</h2>
+
+<p style="margin: 0 0 24px 0; font-size: 15px; line-height: 1.6; color: #51605A;">
+    An expense was added to your account.
+</p>
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: 0 0 8px 0;">
+    <tr>
+        <td style="border-top: 1px dashed #D9D6C7; font-size: 0; line-height: 0;">&nbsp;</td>
+    </tr>
+</table>
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+        <td style="padding: 13px 0; font-size: 13px; color: #8C9690; border-bottom: 1px solid #ECEAE0; vertical-align: middle;">Amount</td>
+        <td style="padding: 13px 0; font-size: 15px; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; font-weight: 700; color: #1C2620; text-align: right; border-bottom: 1px solid #ECEAE0; vertical-align: middle;">₹{{ amount }}</td>
+    </tr>
+    <tr>
+        <td style="padding: 13px 0; font-size: 13px; color: #8C9690; vertical-align: middle;">Description</td>
+        <td style="padding: 13px 0; font-size: 14px; color: #1C2620; text-align: right; vertical-align: middle;">{{ description }}</td>
+    </tr>
+</table>
+{% endblock %}
