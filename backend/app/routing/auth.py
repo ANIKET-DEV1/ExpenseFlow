@@ -83,7 +83,7 @@ async def verify_email(request: Request,
 @limiter.limit("3/hour")
 async def reset_password(request: Request,
                          response:Response,
-    email:EmailStr,
+    email: user.ResetPasswordRequest,
     auth_repo: for_Auth = Depends()
 ):
     data = await auth_repo.password_reset(email)

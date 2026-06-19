@@ -41,3 +41,6 @@ class UserResponse(BaseSchema):
     username: str
     email: EmailStr
     created_at: datetime
+
+class ResetPasswordRequest(BaseModel):
+    email: EmailStr
