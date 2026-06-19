@@ -90,7 +90,7 @@ async def reset_password(request: Request,
     if not data:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             detail="failed to send mail")
-    return data
+    return {"message":"Check you mail"}
 
 
 @auth.post("/password-reset-verify")

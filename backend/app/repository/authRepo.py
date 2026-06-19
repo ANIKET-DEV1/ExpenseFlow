@@ -26,7 +26,7 @@ class for_Auth(BaseRepository,NotificationService):
             if not await is_mail_send(user.email):
                 email_verify_token = email_verification.generate_token(user)
 
-                magic_url = f"{get_config().base_url}/auth/verify-email?token={email_verify_token}"
+                magic_url = f"{get_config().base_url}/verify-email.html?token={email_verify_token}"
             
                 await NotificationService(self.tasks).send_mail(
                     recipients=[user.email],
@@ -57,7 +57,7 @@ class for_Auth(BaseRepository,NotificationService):
         
         email_verify_token = email_verification.generate_token(data)
 
-        magic_url = f"{get_config().base_url}/auth/verify-email?token={email_verify_token}"
+        magic_url = f"{get_config().base_url}/verify-email.html?token={email_verify_token}"
         
         await NotificationService(self.tasks).send_mail(
             recipients=[cred.email],
@@ -77,11 +77,11 @@ class for_Auth(BaseRepository,NotificationService):
         if not await is_mail_send(user.email):
                 email_verify_token = password_mail_verification.generate_token(user)
 
-                magic_url = f"{get_config().base_url}/auth/password-reset-verify?token={email_verify_token}"
+                magic_url = f"{get_config().base_url}/reset-password.html?token={email_verify_token}"
             
                 await NotificationService(self.tasks).send_mail(
                     recipients=[user.email],
-                    subject="Hello!Change Your Email Account passowrd?",
+                    subject="Hello! Change Your Email Account passowrd?",
                     context_data={
                         "username":user.username,
                         "url":magic_url
