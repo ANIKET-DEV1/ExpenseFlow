@@ -7,6 +7,7 @@ from .routing import settlements
 from .routing import tag
 from .model import models
 from fastapi import FastAPI,Request
+from .config.config import get_config
 # keep jwthandler import for dependency usage in routes
 from .Security.deps import get_current_user
 from scalar_fastapi import get_scalar_api_reference
@@ -15,7 +16,7 @@ from scalar_fastapi import get_scalar_api_reference
 from .rate_limiter import limiter
 from slowapi.errors import RateLimitExceeded
 from slowapi.middleware import SlowAPIMiddleware
-
+system=get_config()
 app = FastAPI()
 # attach limiter to app state for middleware and decorators
 app.state.limiter = limiter
@@ -40,8 +41,9 @@ app.include_router(expenses.expense)
 app.include_router(settlements.settlement)
 
 ORIGINS = [
-    "https://expenseflow-awsmx.netlify.app",   
+    system.base_url,
 ]
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=ORIGINS,         # Only allow requests from your trusted frontend list

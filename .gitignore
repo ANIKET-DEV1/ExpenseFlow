@@ -3,3 +3,8 @@
 __pycache__/
 full_tree.txt
 /migrations/env
+.env.*
+__pycache__/
+*.pyc
+.pytest_cache/
+.docker/

@@ -14,17 +14,24 @@ sys.path.insert(0, abspath(join(dirname(__file__), '..')))
 from backend.app.config.config import get_config
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
+
+import os  # Make sure os is imported at the top!
+
 config = context.config
 system = get_config()
 
-# Grab raw URL string
-db_url = system.database_url.get_secret_value()
+# === FIX: Prioritize Docker's environment variable over local configuration ===
+db_url = os.getenv("DATABASE_URL")
+if not db_url:
+    db_url = system.database_url.get_secret_value()
 
 # Clean up query params (sslmode) that asyncpg/alembic will crash on
 if "?" in db_url:
     db_url = db_url.split("?")[0]
 
 config.set_main_option('sqlalchemy.url', db_url)
+
+
 
 # Interpret the config file for Python logging.
 if config.config_file_name is not None:
@@ -60,14 +67,21 @@ async def run_async_migrations() -> None:
     """In this scenario we need to create an Engine
     and associate a connection with the context.
     """
-    # Force asyncpg to use the correct SSL dictionary mapping
-    connect_args = {"ssl": True}
+    # 1. Dynamically toggle SSL based on where the database lives
+    current_url = config.get_main_option("sqlalchemy.url") or ""
+    
+    # If the database URL points to your local docker container host ("db"), disable SSL
+    if "@db:" in current_url or "localhost" in current_url:
+        connect_args = {}
+    else:
+        # Keep production SSL enforcement safe for Neon/Supabase cloud instances
+        connect_args = {"ssl": True}
 
     connectable = async_engine_from_config(
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
-        connect_args=connect_args,  # Injecting SSL requirement safely here
+        connect_args=connect_args,  # Safe, smart injection!
     )
 
     async with connectable.connect() as connection:

@@ -1,0 +1,16 @@
+APP_NAME="EXPENSE_TRACKER_v2.0.0"
+SECRET_KEY="YOUR_SECRET_KEY"
+base_url="http://localhost:5500" #<== here a frontend link or you can use backend just change port 
+# Redis
+DATABASE_URL="postgresql+asyncpg://USERNAME:PASSWORD@localhost:PORT/DATABASE_NAME"
+REDIS_URL="redis://localhost:YOUR_PORT"
+REDIS_PORT="YOUR_PORT"
+ACCESS_TOKEN_EXPIRE_MINUTE=60
+ALGORITHMS="SELECT_ALGORITHM_"
+#EmailSetup
+MAIL_USERNAME="YOUR_MAIL"
+MAIL_PASSWORD="GET_APP_PASSWORD"  #<=== By google only
+MAIL_FROM="YOUR_MAIL"
+MAIL_FROM_NAME="NAME"
+MAIL_SERVER="PROTOCOL"
+MAIL_PORT="PORT" #<==int
