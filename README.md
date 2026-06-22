@@ -216,6 +216,31 @@ uvicorn main:app --reload
 The API will be available at `http://localhost:8000`.
 Interactive docs at `http://localhost:8000/scalar`.
 
+### 6. Run the test suite
+
+You can run the full test suite (22 unit and integration tests) using:
+
+```bash
+.venv\Scripts\pytest
+```
+
+> **Note**: The tests use in-memory mocks for Redis and Cache, so no Redis instance is required. An isolated test database runs in Docker on port `5433` (configured in [docker-compose.test.yml](file:///c:/Users/ANIKET%20GUPTA/OneDrive/Desktop/Expense_Tracker/docker-compose.test.yml)).
+
+### 7. Alternative: Run with Docker Compose
+
+If you have Docker installed, you can spin up the entire backend stack (FastAPI app, PostgreSQL database, and Redis instance) using a single command:
+
+```bash
+docker-compose up --build
+```
+
+Once the containers are running:
+- The FastAPI application is available at `http://localhost:8080`.
+- Run database migrations inside the container:
+  ```bash
+  docker-compose exec web alembic upgrade head
+  ```
+
 ---
 
 ## 🔑 Environment Variables
@@ -312,9 +337,9 @@ Forgot Password → Submit Email → Receive Reset Link
 - [ ] Export expenses to CSV
 - [ ] Ai integration
 - [ ] OAuth 2.0 (Google / GitHub login)
-- [ ] Docker + Docker Compose setup
+- [x] Docker + Docker Compose setup
 - [ ] CI/CD pipeline (GitHub Actions)
-- [ ] Unit & integration tests
+- [x] Unit & integration tests
 
 ---
 

@@ -1,0 +1,20 @@
+# docker-compose.test.yml
+version: '3.8'
+
+services:
+  # Isolated test database on port 5433
+  test_db:
+    image: postgres:18-alpine
+    container_name: expense_test_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: localpassword
+      POSTGRES_DB: expense_test_db  
+    ports:
+      - "5433:5432" 
+
+  test_redis:
+    image: redis:7-alpine
+    container_name: expense_test_redis
+    ports:
+      - "6380:6379"
