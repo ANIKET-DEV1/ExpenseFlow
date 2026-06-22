@@ -1,6 +1,6 @@
 <p align="center">
   <!-- Replace with your banner image -->
-  <img width="800" height="258" alt="image" src="https://github.com/user-attachments/assets/1fa6d4d7-0198-4310-b3c3-5d93f0608d34" />
+<img width="888" height="221" alt="Screenshot 2026-06-21 133843" src="https://github.com/user-attachments/assets/ca04c131-7273-4862-b227-dd1dcbeb175b" />
 
 </p>
 
@@ -49,7 +49,8 @@
 
 <p align="center">
   <!-- Replace with your dashboard screenshot -->
-  <img width="1893" height="873" alt="image" src="https://github.com/user-attachments/assets/ac791d93-9938-4e09-9e73-a45ad878a173" />
+ <img width="1919" height="791" alt="Screenshot 2026-06-21 133425" src="https://github.com/user-attachments/assets/8b543135-53fa-4e52-bdf3-6b33cfa58c65" />
+
 
 </p>
 
