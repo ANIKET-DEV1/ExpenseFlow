@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, Query, Request,Response,s
 from typing import Annotated
 from pydantic import EmailStr
 from ..schemas import user
-from ..Security.deps import get_current_user,get_current_user_with_jti
-from ..Security import jwthandler 
+from ..security.deps import get_current_user,get_current_user_with_jti
+from ..security import jwthandler 
 from ..schemas.auth import TokenData
 from ..database.database import get_db
 from sqlalchemy.ext.asyncio import AsyncSession

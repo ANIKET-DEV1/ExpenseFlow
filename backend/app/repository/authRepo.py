@@ -3,7 +3,7 @@ from pydantic import EmailStr
 from .Base import BaseRepository
 from fastapi import HTTPException,status,Response
 from ..schemas import user
-from ..Security import jwthandler
+from ..security import jwthandler
 from ..database import crud_auth 
 from ..model.models import User
 from ..config.config import get_config

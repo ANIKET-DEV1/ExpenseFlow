@@ -3,7 +3,7 @@ import uuid
 from pydantic import EmailStr
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from ..Security.password import PasswordHasher
+from ..security.password import PasswordHasher
 from fastapi import HTTPException, status
 
 from sqlalchemy.exc import DataError, IntegrityError, SQLAlchemyError

@@ -1,0 +1,168 @@
+Expense Tracker Backend Summary
+==============================
+
+Project Overview:
+-----------------
+This repository contains the backend of an Expense Tracker application built with FastAPI. It handles user registration, login, email verification, password reset, expense management, debt/settlement tracking, tag management, caching, rate limiting, and transactional email notifications.
+
+Core Components:
+----------------
+1. Entry Point
+   - `backend/app/app.py`
+   - Creates the FastAPI app, registers routers for auth, tags, expenses, settlements, and AI chatbot routes.
+   - Configures CORS for the frontend URL and integrates rate limiting with SlowAPI.
+   - Provides a root health check endpoint (`GET /`).
+   - Exposes `/scalar` API docs via Scalar API reference.
+
+2. Configuration
+   - `backend/app/config/config.py`
+   - Loads runtime settings from `.env` using Pydantic Settings.
+   - Defines `AppConfig`, `Notification_config`, and `Ai_config`.
+   - Exposes `get_config()`, `mail_config()`, and `ai_config()`.
+
+3. Database Layer
+   - `backend/app/database/database.py`
+   - Creates async SQLAlchemy engine with optional SSL for production DBs.
+   - Provides `AsyncSessionLocal` and `get_db()` dependency.
+   - Base declarative class is defined here.
+
+4. Redis Support
+   - `backend/app/database/redis.py`
+   - Uses Redis for JWT blacklist and email-send state.
+   - Provides functions: `add_jti_to_blacklist`, `is_jti_in_blacklist`, `mail_send`, `is_mail_send`, `mail_work_done`.
+
+5. Models
+   - `backend/app/model/models.py`
+   - Defines database tables using SQLAlchemy ORM:
+     - `User`: username, email, password, verification status, created_at.
+     - `UserTag`: per-user expense tags.
+     - `UserExpense`: expense records with amount, payment type, date, description.
+     - `UserDebt`: debt/settlement records with person name, status, type, amount, date.
+   - Includes enumerations for `DebtType`, `DebtStatus`, and `PaymentType`.
+
+6. Schemas
+   - `backend/app/schemas/feature.py`
+   - `backend/app/schemas/auth.py`
+   - `backend/app/schemas/user.py` (not inspected directly but part of request bodies)
+   - Pydantic models define request validation and response shapes.
+   - Includes normalization validators for tags, debt types, and emails.
+
+7. Authentication & Security
+   - `backend/app/Security/jwthandler.py`
+     - Creates JWT tokens, validates them, and supports secure auth cookies.
+     - Uses Redis blacklist to invalidate tokens on logout.
+   - `backend/app/Security/password.py`
+     - Password hashing and verification with SHA-256 pre-hash + bcrypt.
+   - `backend/app/Security/deps.py`
+     - Dependency helpers `get_current_user` and `get_current_user_with_jti`.
+     - Reads cookie `access_token`, verifies the token, prevents access if blacklisted.
+
+8. Authentication Routes
+   - `backend/app/routing/auth.py`
+   - Endpoints:
+     - `POST /auth/login`
+     - `POST /auth/register`
+     - `GET /auth/me`
+     - `POST /auth/logout`
+     - `GET /auth/verify-email`
+     - `POST /auth/password-reset`
+     - `POST /auth/password-reset-verify`
+   - Uses rate limiting on all auth endpoints.
+   - Uses background tasks to send verification and reset emails.
+
+9. Feature Routes
+   - `backend/app/routing/expenses.py`
+     - `GET /expenses/view_expenses`
+     - `POST /expenses/add_expenses`
+     - `DELETE /expenses/delete_expense`
+     - Uses Redis cache for user expenses.
+   - `backend/app/routing/settlements.py`
+     - `GET /settlements/View_debt`
+     - `POST /settlements/Add_debt`
+     - `PUT /settlements/update_debt`
+     - `DELETE /settlements/delete_debt`
+     - Uses Redis cache for settlement data.
+   - `backend/app/routing/tag.py`
+     - `GET /tags/view_tags`
+     - `POST /tags/add_tags`
+     - `DELETE /tags/delete_tag`
+
+10. Repository Layer
+    - `backend/app/repository/Base.py`
+      - Base class for repository objects with DB session and background tasks.
+    - `backend/app/repository/authRepo.py`
+      - Handles login, registration, and password reset flows.
+      - Coordinates email notifications via `NotificationService`.
+    - `backend/app/repository/featureRepo.py`
+      - Implements expense, tag, and settlement operations.
+      - Sends email notifications for expense and settlement events.
+
+11. CRUD Layer
+    - `backend/app/database/crud_auth.py`
+      - User registration, login, email verification update, password update, user lookups.
+    - `backend/app/database/crud_feature.py`
+      - Tag creation/view/delete.
+      - Expense creation/view/delete.
+      - Settlement add/view/update/delete.
+      - Contains business rules around tags and expense relationships.
+
+12. Email / Notification
+    - `backend/app/repository/mail_handling.py`
+      - Uses FastAPI-Mail to send templated emails asynchronously.
+    - `backend/app/utils/email_verification.py`
+      - Generates and verifies email verification JWT tokens.
+    - `backend/app/utils/passwrod_reset.py`
+      - Generates and verifies password reset JWT tokens.
+
+13. Rate Limiting
+    - `backend/app/rate_limiter.py` (not inspected directly, but imported in routes)
+    - Provides SlowAPI limiter middleware and decorators for request throttling.
+
+14. Templates
+    - `backend/app/templates/emails/*`
+      - HTML templates for register verification, password reset, expense add/delete, debt add/delete/update.
+
+Environment and Deployment Notes:
+---------------------------------
+- The app expects a `.env` file with values for:
+  - `DATABASE_URL`
+  - `SECRET_KEY`
+  - `ALGORITHMS`
+  - `ACCESS_TOKEN_EXPIRE_MINUTE`
+  - `REDIS_URL`, `REDIS_PORT`
+  - Mail credentials for FastAPI-Mail.
+- It is designed for use with Postgres (Neon-style deployment supported) and Redis.
+- The frontend is expected to live on a trusted origin configured in `backend/app/app.py`.
+
+Backend Responsibilities:
+-------------------------
+- User authentication and session management with JWT cookies.
+- Email verification before login and secure password reset.
+- Expense management with tags and payment types.
+- Debt/settlement tracking with pending/paid status.
+- Tag CRUD for organizing expenses.
+- Redis caching for expense and settlement reads.
+- Redis-based rate limiting and token invalidation.
+- Email notifications for major user actions.
+- Async database operations using SQLAlchemy 2.0.
+
+Key Strengths:
+--------------
+- Modular route structure with dedicated routers.
+- Async-first database and email handling.
+- Strong separation of concerns across routers, repository, and CRUD layers.
+- Built-in security: JWT, token invalidation, verification tokens, cookie auth.
+- Email-driven onboarding and recovery flows.
+- Caching for performance and Redis-backed rate limiting.
+
+Potential Enhancements:
+-----------------------
+- Add proper OpenAPI docs on all endpoints.
+- Create a unified `GET /health` endpoint with DB and cache checks.
+- Improve error messages and status consistency across all CRUD methods.
+- Add logging and observability for background email tasks.
+- Expand tag/expense analytics and dashboard endpoints.
+
+Summary:
+--------
+This backend is a fully featured expense-tracking API with user auth, email verification, expense/debt management, Redis caching, and email notifications. It is built to support a modern JavaScript frontend and deploys cleanly on serverless or containerized Python hosting.

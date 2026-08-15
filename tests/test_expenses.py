@@ -13,7 +13,7 @@ async def test_add_expense_success(auth_client, auth_user):
     response = await auth_client.post("/expenses/add_expenses", json=payload)
     assert response.status_code == 200
     data = response.json()
-    assert data["tag_name"] == "groceries" # tag name gets normalized to lowercase
+    assert data["tag_name"] == "groceries" 
     assert float(data["amount"]) == 45.50
     assert data["description"] == "Weekly grocery shopping"
     assert data["payment_type"] == "CARD"

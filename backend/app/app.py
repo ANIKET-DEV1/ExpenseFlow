@@ -5,11 +5,12 @@ from .routing import expenses
 from fastapi.middleware.cors import CORSMiddleware
 from .routing import settlements
 from .routing import tag
+from .routing import chat_router
 from .model import models
 from fastapi import FastAPI,Request
 from .config.config import get_config
 # keep jwthandler import for dependency usage in routes
-from .Security.deps import get_current_user
+from .security.deps import get_current_user
 from scalar_fastapi import get_scalar_api_reference
 
 # Rate limiting (centralized)
@@ -39,7 +40,7 @@ app.include_router(auth.auth)
 app.include_router(tag.tags)
 app.include_router(expenses.expense)
 app.include_router(settlements.settlement)
-
+app.include_router(chat_router.ai)
 ORIGINS = [
     system.base_url,
 ]

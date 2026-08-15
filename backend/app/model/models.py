@@ -58,7 +58,6 @@ class User(Base):
     expenses: Mapped[List["UserExpense"]] = relationship(back_populates="user", cascade="all, delete-orphan")
     tags: Mapped[List["UserTag"]] = relationship(back_populates="user", cascade="all, delete-orphan")
     debts: Mapped[List["UserDebt"]] = relationship(back_populates="user", cascade="all, delete-orphan")
-    
 
 class UserTag(Base):
     __tablename__ = "tags"

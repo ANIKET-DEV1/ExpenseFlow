@@ -1,6 +1,6 @@
 from fastapi import APIRouter,Depends,HTTPException,status,Response, Request
 from ..repository.featureRepo import features
-from ..Security import deps as jwt
+from ..security import deps as jwt
 from ..schemas import feature
 from ..model import models
 

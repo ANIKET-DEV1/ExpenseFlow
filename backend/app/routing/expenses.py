@@ -1,5 +1,5 @@
 from fastapi import APIRouter,Depends,HTTPException, Request,status,Response
-from ..Security.deps import get_current_user
+from ..security.deps import get_current_user
 from ..schemas import feature
 from ..repository.featureRepo import expensesRepo
 from ..model import models
@@ -35,9 +35,9 @@ async def view_expense(request:Request,
 @expense.post("/add_expenses",response_model=feature.ExpenseResponse)
 @limiter.limit("120/minute")
 async def add_expense(request: Request, expense: feature.ExpenseCreate,
-                      response: Response,
-                       expenseobj:expensesRepo=Depends(), 
-                       current_user:models.User=Depends(get_current_user)):
+                    response: Response,
+                    expenseobj:expensesRepo=Depends(), 
+                    current_user:models.User=Depends(get_current_user)):
     
     data = await expenseobj.add_expense(expense, current_user)
     if not data:

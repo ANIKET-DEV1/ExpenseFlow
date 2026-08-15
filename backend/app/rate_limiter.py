@@ -3,7 +3,7 @@ from slowapi.util import get_remote_address
 from jose import jwt, JWTError
 from fastapi import Request
 from .config.config import get_config
-from .Security.jwthandler import SECRET_KEY, ALGORITHM
+from .security.jwthandler import SECRET_KEY, ALGORITHM
 system=get_config()
 
 def rate_limit_key(request: Request) -> str:
