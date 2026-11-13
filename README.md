@@ -110,7 +110,7 @@ Neon PostgreSQL         Upstash Redis
         FastAPI-Mail (SMTP)
 ```
 
-The frontend is a static site served via **Netlify**. It communicates with a **FastAPI** backend deployed serverlessly on **Vercel**. Persistent data lives in **Neon PostgreSQL** (via Async SQLAlchemy), while **Upstash Redis** handles rate limiting and temporary data. Transactional emails (verification, password reset) are sent using **FastAPI-Mail**.
+The frontend is a static site served via **Vercel**. It communicates with a **FastAPI** backend deployed serverlessly on **Vercel**. Persistent data lives in **Neon PostgreSQL** (via Async SQLAlchemy), while **Upstash Redis** handles rate limiting and temporary data. Transactional emails (verification, password reset) are sent using **FastAPI-Mail**.
 
 ---
 

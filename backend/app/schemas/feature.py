@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field, EmailStr, HttpUrl, field_validator
 from typing import Optional, List
+
 import uuid
 from datetime import datetime, date
 from decimal import Decimal
@@ -8,17 +9,21 @@ class BaseSchema(BaseModel):
     model_config = {"from_attributes": True}
 
 class ExpenseCreate(BaseModel):
-    tag_name: str = Field(..., min_length=2, max_length=50)
-    amount: float = Field(..., gt=0)
-    description: str | None = None
-    payment_type: PaymentType
-    expense_date: date 
-
+    amount: float = Field(..., description="Expense amount in INR")
+    tag_name: str = Field(...,min_length=2,max_length=10, description="Category tag name, e.g. Food, Travel, Bills")
+    description: str | None = Field(None, description="Short note, e.g. 'Swiggy lunch'")
+    payment_type: PaymentType = Field(
+        default=PaymentType.UPI,  
+        description="Payment method used"
+    )
+    expense_date: date = Field(
+            default_factory=date.today,
+            description="Date of expense in YYYY-MM-DD format. Defaults to today."
+        )
     @field_validator("tag_name")
     @classmethod
     def normalize_tag_name(cls, value: str) -> str:
         return value.strip().lower()
-
 class ExpenseResponse(BaseSchema):
     id: int
     tag_name:str 

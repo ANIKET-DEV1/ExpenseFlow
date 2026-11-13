@@ -7,7 +7,7 @@ from fastapi import HTTPException,status
 from .mail_handling import NotificationService
 
 
-class features(BaseRepository):
+class tag_repo(BaseRepository):
     async def add_tags(self, tag=feature.TagCreate,user_id=uuid.UUID):
         data= await manage_tag.create_standalone_tag(self,tag,user_id)
         if not data:

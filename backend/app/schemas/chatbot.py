@@ -1,7 +1,9 @@
 from pydantic import BaseModel,Field
 
-class Send_message(BaseModel):
-    prompt:str=Field(max_length=30)
+class user_message(BaseModel):
+    role:str='user'
+    prompt:str=Field(max_length=100)
 
-class Response_message(BaseModel):
+class assistant_message(BaseModel):
+    role:str='assistant'
     reply: str

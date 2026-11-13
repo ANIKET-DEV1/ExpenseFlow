@@ -1,9 +1,7 @@
-from google import genai
-from ..config.config import ai_config  
-settings=ai_config()
-client = genai.Client(api_key=settings.GEMINI_API_KEY.get_secret_value())
+from openai import AsyncOpenAI
+from ..config.config import get_ai_config
+setting = get_ai_config()
+client = AsyncOpenAI(base_url=setting.LLM_BASE_URL, api_key=setting.LLM_API_KEY)
 
 
 
-
-    

@@ -32,7 +32,9 @@ class Notification_config(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
 class Ai_config(BaseSettings):
-    GEMINI_API_KEY:SecretStr
+    LLM_BASE_URL :str 
+    LLM_API_KEY  :SecretStr  
+    LLM_MODEL    :str 
     SYSTEM_INTRUCTION:str= """You are the assistant inside an Expense Tracker application.
 Your ONLY job is to help users with:
 - Adding, viewing, or updating their expenses and debts/settlements
@@ -56,5 +58,5 @@ def mail_config():
     return Notification_config()
 
 @lru_cache 
-def ai_config():
+def get_ai_config():
     return Ai_config()
